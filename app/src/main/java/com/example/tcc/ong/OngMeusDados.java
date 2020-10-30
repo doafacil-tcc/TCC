@@ -38,7 +38,7 @@ public class OngMeusDados extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(OngMeusDados.this, OngSelecaoDoacaoUnicaRoupa.class);
+                Intent i = new Intent(OngMeusDados.this, OngEditarPerfil.class);
                 startActivity(i);
                 finish();
             }
