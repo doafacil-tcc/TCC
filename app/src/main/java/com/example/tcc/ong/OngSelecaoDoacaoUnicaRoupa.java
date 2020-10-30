@@ -56,7 +56,6 @@ public class OngSelecaoDoacaoUnicaRoupa extends AppCompatActivity {
                         String mFoto3 = x.get("imgUrl3_roupa").toString();
                         mUser = x.get("id_user").toString();
 
-
                         TextView categoria = (TextView) findViewById(R.id.txtSelecaoRoupaOngCategoria);
                         TextView condicao = (TextView) findViewById(R.id.txtSelecaoRoupaOngCondição);
                         TextView tipo = (TextView) findViewById(R.id.txtSelecaoRoupaOngTipo);
