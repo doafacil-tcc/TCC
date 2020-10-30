@@ -6,26 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 
 public class OngFeedDoacaoFragment extends Fragment {
 
-    ListView feedDoacoesOng;
-
-    String[] nomes = {"Doação#1", "Doação#2", "Doação#3", "Doação#4", "Doação#5", "Doação#6", "Doação#7", "Doação#8"};
-
-    String[] detalhes = {"Descrição#1", "Descrição#2", "Descrição#3", "Descrição#4", "Descrição#5", "Descrição#6", "Descrição#7", "Descrição#8"};
-
-    int imagem = R.drawable.ic_launcher_foreground;
-
+    private RecyclerView feedDoacoesOng;
+    private FirebaseFirestore mFirebaseFirestore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,45 +37,40 @@ public class OngFeedDoacaoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        feedDoacoesOng = view.findViewById(R.id.feedONG);
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
+        feedDoacoesOng = view.findViewById(R.id.feedOng);
 
-        CustomAdapter customAdapterDoacao = new CustomAdapter();
-        feedDoacoesOng.setAdapter(customAdapterDoacao);
+//        Query query = mFirebaseFirestore.collection("Aguardando").whereEqualTo("origem", "Doador");
+//
+//        FirestoreRecyclerOptions<Doacao> options = new FirestoreRecyclerOptions.Builder<Doacao>()
+//                .setQuery(query, Doacao.class)
+//                .build();
+//
+//        FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<Doacao, ItensViewHolder>(options) {
+//            @NonNull
+//            @Override
+//            public ItensViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ong_customfeedlayout, parent, false);
+//                return new ItensViewHolder(view);
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(@NonNull ItensViewHolder holder, int position, @NonNull Doacao model) {
+//
+//            }
+//        };
 
     }
 
-    class CustomAdapter extends BaseAdapter {
+//    private class ItensViewHolder extends RecyclerView.ViewHolder {
 
-        @Override
-        public int getCount() {
-            return nomes.length;
-        }
+//        private ImageView imagem;
+//        private TextView tipo;
+//        private TextView categoria;
+//        private TextView quantidade;
 
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            View v = getLayoutInflater().inflate(R.layout.ong_customfeedlayout, null);
-
-            ImageView mImageView = v.findViewById(R.id.imgDoacao);
-            TextView mTitulo = v.findViewById(R.id.txtTituloDoacao);
-            TextView mDetalhe = v.findViewById(R.id.txtDetalheDoacao);
-
-            mImageView.setImageResource(imagem);
-            mTitulo.setText(nomes[i]);
-            mDetalhe.setText(detalhes[i]);
-
-            return v;
-        }
-    }
-
+//        public ItensViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//        }
+//    }
 }

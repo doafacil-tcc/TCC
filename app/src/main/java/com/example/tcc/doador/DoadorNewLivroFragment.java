@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.Entities.DoacaoLivro;
 import com.example.tcc.R;
 import com.example.tcc.inicio.CadastroOngActivity;
@@ -192,6 +193,7 @@ public class DoadorNewLivroFragment extends Fragment implements AdapterView.OnIt
         final String status = "Aguardando";
         final String unica_ou_camp = "unica";
         final String categoria = "Livro";
+        final String origem = "Doador";
 
         Intent intent = new Intent(getActivity(), DoadorDoacaoFinalizada.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -207,10 +209,10 @@ public class DoadorNewLivroFragment extends Fragment implements AdapterView.OnIt
             public void onFinish() {
 
 
-                DoacaoLivro novo_Livro = new DoacaoLivro(iddoacao, uid, null, spnTipo, spnQtd, spnCondicao, descricao,
-                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria);
+                Doacao novo_Livro = new Doacao(iddoacao, uid, null, spnTipo, spnQtd, null, spnCondicao, descricao,
+                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria, origem);
 
-                FirebaseFirestore.getInstance().collection("AguardandoOng")
+                FirebaseFirestore.getInstance().collection("Aguardando")
                         .document(iddoacao)
                         .set(novo_Livro)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

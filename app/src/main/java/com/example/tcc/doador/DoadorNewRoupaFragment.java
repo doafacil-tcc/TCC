@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.Entities.DoacaoRoupa;
 import com.example.tcc.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -193,6 +194,7 @@ public class DoadorNewRoupaFragment extends Fragment implements AdapterView.OnIt
         final String status = "Aguardando";
         final String unica_ou_camp = "unica";
         final String categoria = "Roupa";
+        final String origem = "Doador";
 
         Intent intent = new Intent(getActivity(), DoadorDoacaoFinalizada.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -208,10 +210,10 @@ public class DoadorNewRoupaFragment extends Fragment implements AdapterView.OnIt
             public void onFinish() {
 
 
-        DoacaoRoupa nova_roupa = new DoacaoRoupa(iddoacao, uid, null, spnTipo, spnQtd, tamanho, spnCondicao, descricao,
-                imagem1, imagem2, imagem3, status, unica_ou_camp, categoria);
+        Doacao nova_roupa = new Doacao(iddoacao, uid, null, spnTipo, spnQtd, tamanho, spnCondicao, descricao,
+                imagem1, imagem2, imagem3, status, unica_ou_camp, categoria, origem);
 
-        FirebaseFirestore.getInstance().collection("AguardandoOng")
+        FirebaseFirestore.getInstance().collection("Aguardando")
                 .document(iddoacao)
                 .set(nova_roupa)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

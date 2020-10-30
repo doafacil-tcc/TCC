@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.Entities.DoacaoMoveis;
 import com.example.tcc.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -185,6 +186,7 @@ public class DoadorNewMoveisFragment extends Fragment implements AdapterView.OnI
         final String status = "Aguardando";
         final String unica_ou_camp = "unica";
         final String categoria = "Moveis";
+        final String origem = "Doador";
 
         Intent intent = new Intent(getActivity(), DoadorDoacaoFinalizada.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -200,10 +202,10 @@ public class DoadorNewMoveisFragment extends Fragment implements AdapterView.OnI
             public void onFinish() {
 
 
-                DoacaoMoveis novo_Moveis = new DoacaoMoveis(iddoacao, uid, null, tipo, spnQtd, spnCondicao, descricao,
-                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria);
+                Doacao novo_Moveis = new Doacao(iddoacao, uid, null, tipo, spnQtd, null, spnCondicao, descricao,
+                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria, origem);
 
-                FirebaseFirestore.getInstance().collection("AguardandoOng")
+                FirebaseFirestore.getInstance().collection("Aguardando")
                         .document(iddoacao)
                         .set(novo_Moveis)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

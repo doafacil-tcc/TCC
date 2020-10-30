@@ -67,7 +67,7 @@ public class DoadorDoacoesCampanhaFragment extends Fragment {
 
             ImageView mImageView = v.findViewById(R.id.imgDoacao);
             TextView mTitulo = v.findViewById(R.id.txtTituloDoacao);
-            TextView mDetalhe = v.findViewById(R.id.txtDetalheDoacao);
+            TextView mDetalhe = v.findViewById(R.id.txtCategoria);
 
             mImageView.setImageResource(imagem);
             mTitulo.setText(nomes[i]);

@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.Entities.DoacaoBrinquedo;
 import com.example.tcc.Entities.DoacaoRoupa;
 import com.example.tcc.R;
@@ -187,6 +188,7 @@ public class DoadorNewBrinquedoFragment extends Fragment implements AdapterView.
         final String status = "Aguardando";
         final String unica_ou_camp = "unica";
         final String categoria = "Brinquedo";
+        final String origem = "Doador";
 
         Intent intent = new Intent(getActivity(), DoadorDoacaoFinalizada.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -202,10 +204,10 @@ public class DoadorNewBrinquedoFragment extends Fragment implements AdapterView.
             public void onFinish() {
 
 
-                DoacaoBrinquedo novo_Brinquedo = new DoacaoBrinquedo(iddoacao, uid, null, tipo, spnQtd, spnCondicao, descricao,
-                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria);
+                Doacao novo_Brinquedo = new Doacao(iddoacao, uid, null, tipo, spnQtd, null, spnCondicao, descricao,
+                        imagem1, imagem2, imagem3, status, unica_ou_camp, categoria, origem);
 
-                FirebaseFirestore.getInstance().collection("AguardandoOng")
+                FirebaseFirestore.getInstance().collection("Aguardando")
                         .document(iddoacao)
                         .set(novo_Brinquedo)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
