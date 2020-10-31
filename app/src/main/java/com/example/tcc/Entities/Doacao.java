@@ -21,6 +21,7 @@ public class Doacao implements Parcelable {
     String categoria;
     String origem;
 
+    public Doacao(){ }
 
 
     public Doacao(String id, String id_user, String id_ong, String tipo, String qtd, String tamanho,
