@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgDoacao"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -23,7 +23,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/txtTituloDoacao"
+        android:id="@+id/txtTipo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -43,9 +43,9 @@
         android:text="Detalhe Doacao"
         android:textColor="@color/Verde"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/txtTituloDoacao"
-        app:layout_constraintStart_toStartOf="@+id/txtTituloDoacao"
-        app:layout_constraintTop_toBottomOf="@+id/txtTituloDoacao" />
+        app:layout_constraintEnd_toEndOf="@+id/txtTipo"
+        app:layout_constraintStart_toStartOf="@+id/txtTipo"
+        app:layout_constraintTop_toBottomOf="@+id/txtTipo" />
 
     <TextView
         android:id="@+id/txtQuantidade"

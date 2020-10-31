@@ -12,19 +12,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tcc.Entities.Doacao;
+import com.example.tcc.Entities.SolicitarCampanha;
 import com.example.tcc.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 
 public class DoadorDoacoesCampanhaFragment extends Fragment {
 
-    ListView feedCampanha;
-
-    String[] nomes = {"Campanha#1","Campanha#2","Campanha#3","Campanha#4","Campanha#5","Campanha#6","Campanha#7","Campanha#8"};
-
-    String[] detalhes = {"Descrição#1","Descrição#2","Descrição#3","Descrição#4","Descrição#5","Descrição#6","Descrição#7","Descrição#8"};
-
-    int imagem = R.drawable.ic_launcher_background;
+    private RecyclerView feedCampanha;
+    private FirebaseFirestore mFirebaseFirestore;
+    private FirestoreRecyclerAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,43 +42,61 @@ public class DoadorDoacoesCampanhaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
         feedCampanha = view.findViewById(R.id.feedCampanhas);
 
-        CustomAdapter customAdapterCampanha = new CustomAdapter();
-        feedCampanha.setAdapter(customAdapterCampanha);
+        Query query = mFirebaseFirestore.collection("Campanha");
+
+        FirestoreRecyclerOptions<SolicitarCampanha> options = new FirestoreRecyclerOptions.Builder<SolicitarCampanha>()
+                .setQuery(query, SolicitarCampanha.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<SolicitarCampanha, ItensViewHolderCampanha>(options) {
+
+            @NonNull
+            @Override
+            public ItensViewHolderCampanha onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.doador_customfeedlayout, parent, false);
+                return new DoadorDoacoesCampanhaFragment.ItensViewHolderCampanha(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ItensViewHolderCampanha holder, int position, @NonNull SolicitarCampanha model) {
+                holder.titulox.setText(model.getTitulo());
+                holder.categoriax.setText("Categoria: " + model.getCategoria());
+                holder.breve_descx.setText(model.getDescricao_breve());
+                Picasso.get().load(model.getImgUrl1_campanha()).into(holder.imagemx);
+            }
+        };
+
+        feedCampanha.setHasFixedSize(true);
+        feedCampanha.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        feedCampanha.setAdapter(adapter);
     }
 
-    class CustomAdapter extends BaseAdapter {
+    private class ItensViewHolderCampanha extends RecyclerView.ViewHolder {
+        private ImageView imagemx;
+        private TextView titulox;
+        private TextView categoriax;
+        private TextView breve_descx;
 
-        @Override
-        public int getCount() {
-            return nomes.length;
+        public ItensViewHolderCampanha(@NonNull View itemView) {
+            super(itemView);
+            titulox = itemView.findViewById(R.id.txtTipoDoacao);
+            categoriax = itemView.findViewById(R.id.txtCategoriaDoacao);
+            breve_descx = itemView.findViewById(R.id.txtQuantidadeDoacao);
+            imagemx = itemView.findViewById(R.id.imgDoacao);
         }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            View v = getLayoutInflater().inflate(R.layout.doador_customfeedlayout, null);
-
-            ImageView mImageView = v.findViewById(R.id.imgDoacao);
-            TextView mTitulo = v.findViewById(R.id.txtTituloDoacao);
-            TextView mDetalhe = v.findViewById(R.id.txtCategoria);
-
-            mImageView.setImageResource(imagem);
-            mTitulo.setText(nomes[i]);
-            mDetalhe.setText(detalhes[i]);
-
-            return v;
-        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
     }
 }
+

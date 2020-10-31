@@ -36,6 +36,8 @@ public class SolicitarCampanha implements Parcelable{
         this.categoria = categoria;
     }
 
+    public SolicitarCampanha() {}
+
     public SolicitarCampanha(Parcel in) {
         id_campanha = in.toString();
         id_user = in.toString();

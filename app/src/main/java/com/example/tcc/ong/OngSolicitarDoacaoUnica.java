@@ -14,15 +14,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.tcc.Entities.Doacao;
 import com.example.tcc.Entities.SolicitarDoacaoUnica;
 import com.example.tcc.R;
 import com.example.tcc.doador.DoadorDoacaoFinalizada;
 import com.example.tcc.doador.DoadorMainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class OngSolicitarDoacaoUnica extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -31,6 +36,7 @@ public class OngSolicitarDoacaoUnica extends AppCompatActivity implements Adapte
     String spnCategoria, spnQuantidade, uid, tipo, descricao;
     Button btnEnviarDoacaoUnica;
     EditText mTipo, mDescricao;
+
 
 
     @Override
@@ -75,30 +81,69 @@ public class OngSolicitarDoacaoUnica extends AppCompatActivity implements Adapte
 
             private void saveDoacaoUnica() {
 
-                final String iddoacao = UUID.randomUUID().toString();
-                final String status = "Aguardando";
-                final String unica_ou_camp = "unica";
-                final String origem = "ONG";
+                final Task<DocumentSnapshot> ref_foto = FirebaseFirestore.getInstance().collection("userONG").document(uid)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+
+                                        Map<String, Object> x = document.getData();
+                                        final String foto_ong = x.get("profileUrl").toString();
+                                        final String iddoacao = UUID.randomUUID().toString();
+                                        final String status = "Aguardando";
+                                        final String unica_ou_camp = "unica";
+                                        final String origem = "ONG";
 
 
+                                        Doacao doacao = new Doacao(iddoacao, null, uid, tipo, spnQuantidade, null, null,
+                                                descricao, foto_ong, null, null, status, unica_ou_camp, spnCategoria, origem);
 
-                SolicitarDoacaoUnica doacao = new SolicitarDoacaoUnica(iddoacao, null, uid, tipo, spnQuantidade, null, null,
-                        descricao, status, unica_ou_camp, spnCategoria, origem);
+                                        Log.i("foto_ong", foto_ong);
 
-                FirebaseFirestore.getInstance().collection("Aguardando")
-                        .document(iddoacao)
-                        .set(doacao).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Intent intent = new Intent(OngSolicitarDoacaoUnica.this, OngMainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+                                        FirebaseFirestore.getInstance().collection("Aguardando")
+                                                .document(iddoacao)
+                                                .set(doacao).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Intent intent = new Intent(OngSolicitarDoacaoUnica.this, OngMainActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(intent);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
+//                final String iddoacao = UUID.randomUUID().toString();
+//                final String status = "Aguardando";
+//                final String unica_ou_camp = "unica";
+//                final String origem = "ONG";
+//
+//
+//                Doacao doacao = new Doacao(iddoacao, null, uid, tipo, spnQuantidade, null, null,
+//                        descricao, foto_ong, null, null, status, unica_ou_camp, spnCategoria, origem);
+
+//                FirebaseFirestore.getInstance().collection("Aguardando")
+//                        .document(iddoacao)
+//                        .set(doacao).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Intent intent = new Intent(OngSolicitarDoacaoUnica.this, OngMainActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                    }
+//                });
             }
         });
     }

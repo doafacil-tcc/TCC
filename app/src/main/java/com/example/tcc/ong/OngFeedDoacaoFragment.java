@@ -6,11 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -25,7 +23,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.squareup.picasso.Picasso;
 
 
 public class OngFeedDoacaoFragment extends Fragment {
@@ -79,7 +76,7 @@ public class OngFeedDoacaoFragment extends Fragment {
 
     }
 
-    private class ItensViewHolder extends RecyclerView.ViewHolder {
+    private static class ItensViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imagem;
         private TextView tipo;
@@ -89,7 +86,7 @@ public class OngFeedDoacaoFragment extends Fragment {
         public ItensViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tipo = itemView.findViewById(R.id.txtTituloDoacao);
+            tipo = itemView.findViewById(R.id.txtTipo);
             categoria = itemView.findViewById(R.id.txtCat);
             quantidade = itemView.findViewById(R.id.txtQuantidade);
             imagem = itemView.findViewById(R.id.imgDoacao);
