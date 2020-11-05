@@ -83,7 +83,7 @@ public class OngFeedDoacaoFragment extends Fragment implements FeedOngAdapter.On
             Intent i = new Intent(getContext(), OngSelecaoDoacaoUnicaRoupa.class);
             startActivity(i);
         }
-
+// vish maria
         if(snapshot.getCategoria().equals("Moveis")) {
 
             Log.i("Item_Clicked", snapshot.getCategoria());
