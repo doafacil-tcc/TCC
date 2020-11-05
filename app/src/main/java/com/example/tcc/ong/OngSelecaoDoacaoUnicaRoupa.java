@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.tcc.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,11 +21,15 @@ import java.util.Map;
 public class OngSelecaoDoacaoUnicaRoupa extends AppCompatActivity {
 
     String mUser;
+    String idItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ong_activity_selecao_doacao_unica_roupa);
+
+        idItem = OngFeedDoacaoFragment.id_Clicked_roupa;
+        Log.i("chama", idItem);
 
         ColetaDadosRoupa();
 
@@ -34,7 +37,7 @@ public class OngSelecaoDoacaoUnicaRoupa extends AppCompatActivity {
 
     private void ColetaDadosRoupa() {
 
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("AguardandoOng").document("bbcb16ef-2289-43b6-8a5c-18867d42556c");
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Aguardando").document(idItem);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -46,14 +49,14 @@ public class OngSelecaoDoacaoUnicaRoupa extends AppCompatActivity {
                         Map<String, Object> x = document.getData();
 
                         String mCategoria = x.get("categoria").toString();
-                        String mCondicao = x.get("condicao_roupa").toString();
-                        String mTipo = x.get("tipo_roupa").toString();
-                        String mQtd = x.get("qtd_roupa").toString();
-                        String mTamanho = x.get("tamanho_roupa").toString();
-                        String mDescricao = x.get("descricao_roupa").toString();
-                        String mFoto1 = x.get("imgUrl1_roupa").toString();
-                        String mFoto2 = x.get("imgUrl2_roupa").toString();
-                        String mFoto3 = x.get("imgUrl3_roupa").toString();
+                        String mCondicao = x.get("condicao").toString();
+                        String mTipo = x.get("tipo").toString();
+                        String mQtd = x.get("qtd").toString();
+                        String mTamanho = x.get("tamanho").toString();
+                        String mDescricao = x.get("descricao").toString();
+                        String mFoto1 = x.get("imgUrl1").toString();
+                        String mFoto2 = x.get("imgUrl2").toString();
+                        String mFoto3 = x.get("imgUrl3").toString();
                         mUser = x.get("id_user").toString();
 
                         TextView categoria = (TextView) findViewById(R.id.txtSelecaoRoupaOngCategoria);
